@@ -16,12 +16,13 @@ def get_active_player_name(string):
         print(e)
 
     # List of names to be returned
-    names_in_string = []
+    names_in_string = {}
 
     # Find names in string
-    for name in players['active_players']:
-        if name.lower() in string.lower():
-            names_in_string.append(name)
+    for player, player_id in players['active_players'].items():
+
+        if player.lower() in string.lower():
+            names_in_string[player] = player_id
 
     return names_in_string
 
@@ -41,12 +42,13 @@ def get_inactive_player_name(string):
         print(e)
 
     # List of names to be returned
-    names_in_string = []
+    names_in_string = {}
 
     # Find names in string
-    for name in players['inactive_players']:
-        if name.lower() in string.lower():
-            names_in_string.append(name)
+    for player, player_id in players['inactive_players'].items():
+
+        if player.lower() in string.lower():
+            names_in_string[player] = player_id
 
     return names_in_string
 

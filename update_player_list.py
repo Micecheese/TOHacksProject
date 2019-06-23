@@ -11,10 +11,8 @@ def update_player_list():
     inactive_player_info = get_inactive_players()
 
     # Filter through player info and retrieve only the names as a list
-    active_players = [info['full_name'] for info in active_player_info]
-    inactive_players = [info['full_name'] for info in inactive_player_info]
-    active_players.sort()
-    inactive_players.sort()
+    active_players = {info['full_name']: info['id'] for info in active_player_info}
+    inactive_players = {info['full_name']: info['id'] for info in inactive_player_info}
 
     # Create dictionary of active and inactive players
     all_players = {'active_players': active_players, 'inactive_players': inactive_players}
