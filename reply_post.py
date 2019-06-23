@@ -17,13 +17,13 @@ else:
         posts_replied_to = list(filter(None, posts_replied_to))
 
 # getting the top 5 posts on reddit
-subreddit = reddit.subreddit('pythonforengineers')
+subreddit = reddit.subreddit('NBAInfoBot')
 
 for submission in subreddit.hot(limit=5):
     if submission.id not in posts_replied_to:
 
-        if re.search("i love python", submission.title, re.IGNORECASE):
-            submission.reply("Figma is a better language no cap")
+        if re.search("Kawhi Leonard", submission.title, re.IGNORECASE):
+            submission.reply("ha ha ha ha ha")
             print("Bot replying to: ", submission.title)
             posts_replied_to.append(submission.id)
 
