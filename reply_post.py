@@ -1,11 +1,12 @@
 import praw
 import os
 import get_player_name
+import player_stats
 from nba_api.stats.endpoints import playercareerstats
 from update_player_list import update_player_list
 
 # Update player name file
-update_player_list()
+# update_player_list()
 
 career = playercareerstats.PlayerCareerStats(player_id = 2544)
 
@@ -35,11 +36,23 @@ for submission in subreddit.new(limit=5):
         # Find active and inactive players in submission title
         active_players = get_player_name.get_active_player_name(submission.title)
         inactive_players = get_player_name.get_inactive_player_name(submission.title)
-        # Reply to submissions
+        # Reply to submissions with player data
         for player, player_id in active_players.items():
-            submission.reply(player + " has id : " + str(player_id))
+            reply = player + "\n\nPoints per game : " + str(player_stats.points_per_game(player_id)) + \
+                "\n\nAssists per game : " + str(player_stats.assists_per_game(player_id)) + \
+                "\n\nRebounds per game : " + str(player_stats.rebounds_per_game(player_id)) + \
+                "\n\nMinutes per game : " + str(player_stats.minutes_per_game(player_id)) + \
+                "\n\nFree throw percentage : " + str(player_stats.ft_percentage(player_id)) + \
+                "\n\nField goal percentage : " + str(player_stats.fg_percentage(player_id))
+            submission.reply(reply)
         for player, player_id in inactive_players.items():
-            submission.reply(player + " has id : " + str(player_id))
+            reply = player + "\n\nPoints per game : " + str(player_stats.points_per_game(player_id)) + \
+                    "\n\nAssists per game : " + str(player_stats.assists_per_game(player_id)) + \
+                    "\n\nRebounds per game : " + str(player_stats.rebounds_per_game(player_id)) + \
+                    "\n\nMinutes per game : " + str(player_stats.minutes_per_game(player_id)) + \
+                    "\n\nFree throw percentage : " + str(player_stats.ft_percentage(player_id)) + \
+                    "\n\nField goal percentage : " + str(player_stats.fg_percentage(player_id))
+            submission.reply(reply)
 
 # Update the file with the data id
 with open("posts_replied_to.txt", "w") as f:
