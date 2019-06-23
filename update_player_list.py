@@ -20,7 +20,3 @@ def update_player_list():
     # Write player names as JSON data to file
     with open('player_names.json', 'w+') as f:
         f.write(dumps(all_players))
-
-
-if __name__ == "__main__":
-    update_player_list()

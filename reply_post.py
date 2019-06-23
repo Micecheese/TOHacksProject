@@ -1,8 +1,12 @@
 import praw
-import pdb
 import re
 import os
+import get_player_name
 from nba_api.stats.endpoints import playercareerstats
+from update_player_list import update_player_list
+
+# Update player name file
+update_player_list()
 
 career = playercareerstats.PlayerCareerStats(player_id = 2544)
 
@@ -26,18 +30,18 @@ else:
 subreddit = reddit.subreddit('NBAInfoBot')
 
 # Getting the hot 5 posts on reddit
-for submission in subreddit.hot(limit=5):
+for submission in subreddit.new(limit=5):
     # Filtering out the threads we have already replied in using the .txt file
     if submission.id not in posts_replied_to:
-        # Case insensitive search
-        if re.search("Lebron James", submission.title, re.IGNORECASE):
-            # What you want to reply with
-            submission.reply(career.get_data_frames()[0])
-            print("Bot replying to: ", submission.title)
-            # Store the data id into the txt file to prevent double posting
-            posts_replied_to.append(submission.id)
+        # Find active and inactive players in submission title
+        active_players = get_player_name.get_active_player_name(submission.title)
+        inactive_players = get_player_name.get_inactive_player_name(submission.title)
+        for player, player_id in active_players.items():
+            submission.reply(player + " has id : " + str(player_id))
+        for player, player_id in inactive_players.items():
+            submission.reply(player + " has id : " + str(player_id))
 
 # Update the file with the data id
-''' with open("posts_replied_to.txt", "w") as f:
+with open("posts_replied_to.txt", "w") as f:
     for post_id in posts_replied_to:
-        f.write(post_id + "\n") '''
+        f.write(post_id + "\n")
