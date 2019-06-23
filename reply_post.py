@@ -2,6 +2,9 @@ import praw
 import pdb
 import re
 import os
+from nba_api.stats.endpoints import playercareerstats
+
+career = playercareerstats.PlayerCareerStats(player_id = 2544)
 
 # Creating the Reddit instance
 reddit = praw.Reddit('bot1')
@@ -27,13 +30,14 @@ for submission in subreddit.hot(limit=5):
     # Filtering out the threads we have already replied in using the .txt file
     if submission.id not in posts_replied_to:
         # Case insensitive search
-        if re.search("Kawhi Leonard", submission.title, re.IGNORECASE):
+        if re.search("Lebron James", submission.title, re.IGNORECASE):
             # What you want to reply with
+            submission.reply(career.get_data_frames()[0])
             print("Bot replying to: ", submission.title)
             # Store the data id into the txt file to prevent double posting
             posts_replied_to.append(submission.id)
 
 # Update the file with the data id
-with open("posts_replied_to.txt", "w") as f:
+''' with open("posts_replied_to.txt", "w") as f:
     for post_id in posts_replied_to:
-        f.write(post_id + "\n")
+        f.write(post_id + "\n") '''
