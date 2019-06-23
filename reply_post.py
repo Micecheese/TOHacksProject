@@ -6,9 +6,12 @@ import os
 # Creating the Reddit instance
 reddit = praw.Reddit('bot1')
 
+# Creating a file by assuming that the file does not exist
 if not os.path.isfile("posts_replied_to.txt"):
     posts_replied_to = []
+# If the list has been created, it will have data on the text file showing what not to reply with
 else:
+    # Reading the file
     with open("posts_replied_to.txt", "r") as f:
         posts_replied_to = f.read()
         # Newline the data
@@ -16,18 +19,21 @@ else:
         # filter out empty data (lines)
         posts_replied_to = list(filter(None, posts_replied_to))
 
-# getting the top 5 posts on reddit
+# Setting the subreddit that we want to get the hot 5 posts in
 subreddit = reddit.subreddit('NBAInfoBot')
 
+# Getting the hot 5 posts on reddit
 for submission in subreddit.hot(limit=5):
+    # Filtering out the threads we have already replied in using the .txt file
     if submission.id not in posts_replied_to:
-
+        # Case insensitive search
         if re.search("Kawhi Leonard", submission.title, re.IGNORECASE):
-            submission.reply("ha ha ha ha ha")
+            # What you want to reply with
             print("Bot replying to: ", submission.title)
+            # Store the data id into the txt file to prevent double posting
             posts_replied_to.append(submission.id)
 
-
+# Update the file with the data id
 with open("posts_replied_to.txt", "w") as f:
     for post_id in posts_replied_to:
         f.write(post_id + "\n")
