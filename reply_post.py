@@ -1,5 +1,4 @@
 import praw
-import re
 import os
 import get_player_name
 from nba_api.stats.endpoints import playercareerstats
@@ -36,6 +35,7 @@ for submission in subreddit.new(limit=5):
         # Find active and inactive players in submission title
         active_players = get_player_name.get_active_player_name(submission.title)
         inactive_players = get_player_name.get_inactive_player_name(submission.title)
+        # Reply to submissions
         for player, player_id in active_players.items():
             submission.reply(player + " has id : " + str(player_id))
         for player, player_id in inactive_players.items():
