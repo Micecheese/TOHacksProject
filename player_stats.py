@@ -51,16 +51,3 @@ def fg_percentage(id):
     fg_made = raw_values.iloc[10]
     fg_attempted = raw_values.iloc[11]
     return round(fg_made/fg_attempted, 3)
-
-
-print(points_per_game(202695))
-print(assists_per_game(2544))
-print(rebounds_per_game(202695))
-print(minutes_per_game(2544))
-print(ft_percentage(202695))
-print(fg_percentage(202695))
-
-
-
-
-
