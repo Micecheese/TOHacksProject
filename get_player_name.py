@@ -51,8 +51,3 @@ def get_inactive_player_name(string):
             names_in_string[player] = player_id
 
     return names_in_string
-
-
-if __name__ == "__main__":
-    print(get_active_player_name('LeBron James'))
-    print(get_inactive_player_name('Michael Jordan'))
